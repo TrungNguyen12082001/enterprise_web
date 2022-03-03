@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Video from "../../videos/video.mp4";
+import Video from "../../videos/earth.mp4";
 import { Button } from "../Button/Button.elements";
 import {
   BannerContainer,
@@ -31,7 +31,13 @@ const Banner = () => {
           Sign in for submit your ideas to contributing the company!
         </BannerP>
         <BannerBtnWrapper>
-          <Button to="signup" onMouseEnter={onHover} onMouseLeave={onHover}>
+          <Button
+            to="signup"
+            onMouseEnter={onHover}
+            onMouseLeave={onHover}
+            primary="true"
+            dark="true"
+          >
             Get started {hover ? <ArrowForward /> : <ArrowRight />}
           </Button>
         </BannerBtnWrapper>
