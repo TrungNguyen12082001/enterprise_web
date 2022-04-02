@@ -1,10 +1,17 @@
 import axios from "axios";
-import { Button, FormGroup, TextField } from "@mui/material";
+import {
+  Button,
+  Checkbox,
+  FormControlLabel,
+  FormGroup,
+  TextField,
+} from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React, { useState, useEffect } from "react";
 import UserSidebar from "../UserSidebar/UserSidebar";
 import jwt_decode from "jwt-decode";
 import { MenuItem, FormControl, InputLabel, Select } from "@mui/material";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -17,38 +24,50 @@ const useStyles = makeStyles({
   },
 });
 
-const CreateIdeas = ({ description, content, categoryId }) => {
+const CreateIdeas = () => {
   const [categories, setCategories] = useState("");
   const [cates, setCates] = useState("");
   const [title, setTitle] = useState("");
+  const [description, setDescription] = useState("");
+  const [content, setContent] = useState("");
+  const [categoryId, setCategoryId] = useState("");
+  const [submissionId, setSubmissionId] = useState("");
+  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const user = JSON.parse(localStorage.getItem("user"));
-  const data = {
+  const requestHeader = {
     headers: {
       Authorization: `Bearer ${user.token}`,
     },
   };
+  let { id } = useParams();
+  console.log(id);
   const onSubmit = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     var userInfo = jwt_decode(user.token);
     // e.preventDefault();
     await axios.post(
-      "https://localhost:7133/api/Idea/CreateIdeaRequest",
+      `https://localhost:7133/api/Idea/CreateIdea`,
       {
         title: title,
         description: description,
         content: content,
         userId: userInfo.userId,
         categoryId: categoryId,
+        submissionId: parseInt(id),
       },
-      data
+      requestHeader
     );
     setTitle("");
+    setDescription("");
+    setContent("");
+    setCategoryId("");
+    setSubmissionId("");
   };
 
   const getCategoryList = async () => {
     const res = await axios.get(
       "https://localhost:7133/api/Idea/GetAllCategories",
-      data
+      requestHeader
     );
 
     setCategories(res.data);
@@ -58,17 +77,29 @@ const CreateIdeas = ({ description, content, categoryId }) => {
     getCategoryList();
   }, []);
 
+  // const fetchSubmissions = async () => {
+  //   const res = await axios.get(
+  //     "https://localhost:7133/api/Idea/GetAllSubmissions",
+  //     data
+  //   );
+  //   setSubmissionId(res.data);
+  // };
+
+  // useEffect(() => {
+  //   fetchSubmissions();
+  // }, []);
+
   const handleChange = (event) => {
-    setCates(event.target.value);
+    setCategoryId(event.target.value);
   };
 
   const renderCategories = Object.values(categories).map((item) => {
-    return (
-      <MenuItem key={item.id} value={item.id}>
-        {item.name}
-      </MenuItem>
-    );
+    return <MenuItem value={item.id}>{item.name}</MenuItem>;
   });
+
+  // const renderSubmissionId = Object.values(submissionId).map((sub) => {
+  //   return <>{sub.id}</>;
+  // });
 
   const classes = useStyles();
   return (
@@ -90,7 +121,7 @@ const CreateIdeas = ({ description, content, categoryId }) => {
           style={{ marginBottom: 20 }}
           label="Description"
           value={description}
-          // onChange={(e) => setTitle(e.target.value)}
+          onChange={(e) => setDescription(e.target.value)}
           variant="outlined"
           color="secondary"
           fullWidth
@@ -99,6 +130,8 @@ const CreateIdeas = ({ description, content, categoryId }) => {
 
         <TextField
           label="Contents"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
           variant="outlined"
           color="secondary"
           multiline
@@ -112,7 +145,7 @@ const CreateIdeas = ({ description, content, categoryId }) => {
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
-            value={cates}
+            value={categoryId}
             label="Category"
             onChange={handleChange}
           >
@@ -120,11 +153,24 @@ const CreateIdeas = ({ description, content, categoryId }) => {
           </Select>
         </FormControl>
 
+        <FormGroup>
+          <FormControlLabel
+            control={<Checkbox />}
+            label="Agree terms and conditions of company"
+            required
+          />
+          {/* <Checkbox {...label} /> */}
+        </FormGroup>
+
         <Button
           style={{ marginTop: 30 }}
           variant="contained"
           color="primary"
+          value={submissionId}
+          onChange={(e) => setSubmissionId(e.target.value)}
           onClick={() => onSubmit()}
+          // disabled={() => setSubmissionId()}
+          // disabled={false}
         >
           Submit
         </Button>

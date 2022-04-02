@@ -2,6 +2,8 @@ import { AppBar, Toolbar, Typography } from "@mui/material";
 import { makeStyles } from "@mui/styles";
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 const useStyles = makeStyles({
   header: {
@@ -15,6 +17,12 @@ const useStyles = makeStyles({
 });
 
 const UserSidebar = () => {
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("user"));
+  const logout = () => {
+    localStorage.removeItem("user");
+    navigate("/");
+  };
   const classes = useStyles();
   return (
     <AppBar className={classes.header} position="static">
@@ -34,6 +42,14 @@ const UserSidebar = () => {
         <NavLink className={classes.tabs} to="/all-submissions" exact>
           All Submissions
         </NavLink>
+        <Button
+          onClick={logout}
+          // exact
+          // size="small"
+          style={{ color: "#fff", marginTop: 5 }}
+        >
+          Logout
+        </Button>
       </Toolbar>
     </AppBar>
   );

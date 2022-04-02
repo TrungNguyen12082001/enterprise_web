@@ -10,9 +10,10 @@ import Typography from "@mui/material/Typography";
 import { Grid } from "@mui/material";
 import { CommentCreate } from "../Comment/CommentCreate";
 import CommentList from "../Comment/CommentList";
+import { useParams } from "react-router-dom";
 
-const IdeaList = () => {
-  const [submissions, setsubmissions] = useState("");
+const IdeaList = ({ submissionId }) => {
+  // const [submissionId, setsubmissionId] = useState("");
   const [ideas, setIdeas] = useState({});
   const user = JSON.parse(localStorage.getItem("user"));
   const requestHeader = {
@@ -20,46 +21,49 @@ const IdeaList = () => {
       Authorization: `Bearer ${user.token}`,
     },
   };
+  let { id } = useParams();
+  console.log(id);
 
-  const fetchSubmissions = async () => {
-    const res = await axios.get(
-      "https://localhost:7133/api/Idea/GetAllSubmissions",
-      requestHeader
-    );
-    setsubmissions(res.data);
-  };
+  // const fetchSubmissions = async () => {
+  //   const res = await axios.get(
+  //     `https://localhost:7133/api/Idea/GetAllSubmissions`,
+  //     requestHeader
+  //   );
+  //   setsubmissions(res.data);
+  // };
 
-  useEffect(() => {
-    fetchSubmissions();
-  }, []);
+  // useEffect(() => {
+  //   fetchSubmissions();
+  // }, []);
 
   const fetchIdeas = async () => {
     const res = await axios.get(
-      "https://localhost:7133/api/Idea/GetAllIdeas",
+      `https://localhost:7133/api/Idea/GetAllIdeas/${id}`,
       requestHeader
     );
     setIdeas(res.data);
+    // setsubmissionId("");
   };
 
   useEffect(() => {
     fetchIdeas();
   }, []);
 
-  const renderSubmission = Object.values(submissions).map((item) => {
-    return (
-      <>
-        <Grid item xs={2} sm={4} md={4}>
-          <Card sx={{ minWidth: 275 }}>
-            <CardContent>
-              <Typography variant="h5" component="div">
-                {item.name}
-              </Typography>
-            </CardContent>
-          </Card>
-        </Grid>
-      </>
-    );
-  });
+  // const renderSubmission = Object.values(submissions).map((item) => {
+  //   return (
+  //     <>
+  //       <Grid item xs={2} sm={4} md={4}>
+  //         <Card sx={{ minWidth: 275 }}>
+  //           <CardContent>
+  //             <Typography variant="h5" component="div">
+  //               {item.name}
+  //             </Typography>
+  //           </CardContent>
+  //         </Card>
+  //       </Grid>
+  //     </>
+  //   );
+  // });
 
   const renderedIdeas = Object.values(ideas).map((idea) => {
     return (
@@ -73,6 +77,16 @@ const IdeaList = () => {
                 gutterBottom
               >
                 Word of the Day
+              </Typography> */}
+              {/* <Typography variant="h5" component="div">
+                {idea.submissionId}
+              </Typography> */}
+              {/* <Typography
+                variant="h5"
+                component="div"
+                submissionId={idea.submissionId}
+              >
+                {idea.submissionId}
               </Typography> */}
               <Typography variant="h5" component="div">
                 {idea.title}
@@ -97,6 +111,7 @@ const IdeaList = () => {
     <div>
       <UserSidebar />
       <Grid
+        // id={id}
         container
         spacing={{ xs: 2, md: 3 }}
         columns={{ xs: 4, sm: 8, md: 12 }}

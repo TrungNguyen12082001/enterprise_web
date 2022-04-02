@@ -13,6 +13,7 @@ import { Categories } from "./components/Category/Categories";
 import Submission from "./components/Submission/Submission";
 import AllCategories from "./components/Category/AllCategories";
 import AllSubmissions from "./components/Submission/AllSubmissions";
+import AllUsers from "./components/ManageUsersByAdmin/AllUsers";
 
 function App() {
   return (
@@ -22,18 +23,15 @@ function App() {
         <Route path="/signin" element={<Signin />} />
         <Route path="/admin" element={<Admin />} />
         <Route path="/user" element={<Client />} />
-        <Route path="/all-user" element={<CreateUser />} />
+        <Route path="/all-users" element={<CreateUser />} />
         <Route path="/add-user" element={<AddUser />} />
-        <Route path="/edit/:id" element={<EditUser />} />
+        {/* <Route path="/edit/:id" element={<EditUser />} /> */}
         <Route path="/add-idea/:id" element={<CreateIdeas />} />
         <Route path="/all-ideas/:id" element={<IdeaList />} />
         <Route path="/categories" element={<Categories />} />
         <Route path="/all-categories" element={<AllCategories />} />
         <Route path="/submissions" element={<Submission />} />
         <Route path="/all-submissions" element={<AllSubmissions />} />
-        {/* <Route path="/add-idea/:id">
-          <CreateIdeas />
-        </Route> */}
       </Routes>
     </Router>
   );

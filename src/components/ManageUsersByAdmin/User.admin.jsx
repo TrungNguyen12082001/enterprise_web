@@ -10,27 +10,39 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { getUserList } from "../../store/actions/user-action";
 import AdminSidebar from "../AdminSidebar/AdminSidebar";
-import {
-  CreateUserContainer,
-  //Table,
-  TBody,
-  Th,
-  Thead,
-  TrUserContent,
-  Tr,
-} from "./User.admin.elements";
+import { CreateUserContainer } from "./User.admin.elements";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 class CreateUser extends Component {
   userTable = () => {
+    const user = JSON.parse(localStorage.getItem("user"));
+    const requestHeader = {
+      headers: {
+        Authorization: `Bearer ${user.token}`,
+      },
+    };
     const { userList } = this.props;
     console.log("aaa", userList);
     if (userList.userList && userList.userList.length > 0) {
       return userList.userList.map((user, index) => {
+        const handleDelete = () => {
+          const url = `https://localhost:7133/api/User/${user.userId}`;
+
+          axios
+            .delete(url, requestHeader)
+            .then(() => {
+              this.setState((previousState) => ({
+                res: previousState.res.filter((m) => m.userId !== user.userId),
+              }));
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        };
         return (
           <TableRow>
             <TableCell>{index}</TableCell>
-            {/* <TableCell>{user.userId}</TableCell> */}
             <TableCell>{user.fullName}</TableCell>
             <TableCell>{user.roleName}</TableCell>
             <TableCell>{user.email}</TableCell>
@@ -45,7 +57,11 @@ class CreateUser extends Component {
               >
                 Edit
               </Button>
-              <Button variant="contained" style={{ background: "#b2102f" }}>
+              <Button
+                variant="contained"
+                onClick={(e) => handleDelete(e, user)}
+                style={{ background: "#b2102f" }}
+              >
                 Delete
               </Button>
             </TableCell>
@@ -63,7 +79,6 @@ class CreateUser extends Component {
           <TableHead>
             <TableRow>
               <TableCell>Id</TableCell>
-              {/* <TableCell>UserId</TableCell> */}
               <TableCell>Full Name</TableCell>
               <TableCell>Role</TableCell>
               <TableCell>Email</TableCell>
@@ -77,7 +92,6 @@ class CreateUser extends Component {
         </Table>
       </CreateUserContainer>
     );
-    // <></>
   }
 
   async componentDidMount() {
@@ -93,3 +107,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(CreateUser);
+// export default CreateUser;
