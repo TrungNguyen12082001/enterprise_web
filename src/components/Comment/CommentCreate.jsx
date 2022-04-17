@@ -47,7 +47,7 @@ export const CommentCreate = ({ ideaId }) => {
           color="primary"
           onClick={() => onSubmit()}
         >
-          Submit
+          Send
         </Button>
       </FormGroup>
     </>

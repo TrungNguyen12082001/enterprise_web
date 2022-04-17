@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
 import UserSidebar from "../UserSidebar/UserSidebar";
 import { Grid } from "@mui/material";
@@ -8,15 +8,11 @@ import CardContent from "@mui/material/CardContent";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import { NavLink } from "react-router-dom";
-import { isDisabled } from "@testing-library/user-event/dist/utils";
 
 const AllSubmissions = ({ id }) => {
   const [submissions, setSubmissions] = useState("");
-  // const [disable, setDisable] = useState(false);
-  // const { linkDisabled } = useState();
-  // const buttonRef = useRef();
   const disableDate = React.useState(new Date());
-  // console.log(disableDate);
+  console.log(disableDate);
   const user = JSON.parse(localStorage.getItem("user"));
   const requestHeader = {
     headers: {
@@ -25,9 +21,10 @@ const AllSubmissions = ({ id }) => {
   };
   const fetchSubmissions = async () => {
     const res = await axios.get(
-      "https://localhost:7133/api/Idea/GetAllSubmissions",
+      `https://localhost:7133/api/Idea/GetAllSubmissions`,
       requestHeader
     );
+    console.log(res, "All Submissions");
     setSubmissions(res.data);
   };
 
@@ -35,34 +32,36 @@ const AllSubmissions = ({ id }) => {
     fetchSubmissions();
   }, []);
 
-  // const handleDisable = (e) => {
-  //   if (linkDisabled) e.preventDefault();
-  // };
+  // const date = moment(disableDate).format("DD MMM, YYYY");
+  // console.log(date);
 
-  // const disableButton = () => {
-  //   buttonRef.current.disabled = true;
-  // };
+  var today = new Date(),
+    date =
+      today.getFullYear() +
+      "-" +
+      (today.getMonth() + 1) +
+      "-" +
+      today.getDate();
+  console.log(date);
+
+  // const disable = false;
 
   const renderSubmissionTable = Object.values(submissions).map((item) => {
     // const handleChange = () => {
-    //   if (item.closureDate < new Date()) {
-    //     disable = false;
-    //   } else {
+    //   if (item.closureDate < date) {
     //     disable = true;
+    //   } else {
+    //     disable = false;
     //   }
     // };
-    let isValid = false;
-    const sId = item.id;
+    // let isValid = false;
+    // const sId = item.id;
 
-    if (disableDate > new Date(item.closureDate)) {
-      isValid = true;
-    } else {
-      isValid = false;
-    }
-
-    const gotoAddIdeaPage = (id) => {
-      document.location = `/add-idea/${id}`;
-    };
+    // if (disableDate > new Date(item.closureDate)) {
+    //   isValid = true;
+    // } else {
+    //   isValid = false;
+    // }
 
     return (
       <Grid item xs={2} sm={4} md={4}>
@@ -83,13 +82,7 @@ const AllSubmissions = ({ id }) => {
           </CardContent>
           <CardActions>
             <NavLink to={{ pathname: "/add-idea/" + item.id }}>
-              <Button
-                size="small"
-                // disabled="{isValid}"
-                // onClick={gotoAddIdeaPage(item.id)}
-              >
-                Add Ideas
-              </Button>
+              <Button size="small">Add Ideas</Button>
             </NavLink>
             <NavLink to={{ pathname: "/all-ideas/" + item.id }}>
               <Button>Detail</Button>

@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import UserSidebar from "../UserSidebar/UserSidebar";
 
 const AllUsers = () => {
   const [allUsers, setAllUsers] = useState("");
@@ -39,7 +38,6 @@ const AllUsers = () => {
   };
 
   const onDelete = (id) => {
-    // setCategory(category.filter((item) => item.name !== name));
     axios
       .delete(`https://localhost:7133/api/User/${id}`, requestHeader)
       .then(() => {
@@ -61,8 +59,6 @@ const AllUsers = () => {
               variant="contained"
               color="primary"
               style={{ marginRight: 10 }}
-              //   component={Link}
-              //   to={`/edit/${user.userId}`}
             >
               Edit
             </Button>
@@ -81,7 +77,6 @@ const AllUsers = () => {
 
   return (
     <>
-      {/* <UserSidebar /> */}
       <Table style={{ marginTop: 30 }}>
         <TableHead>
           <TableRow>

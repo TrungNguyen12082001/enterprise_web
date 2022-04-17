@@ -15,7 +15,6 @@ const CommentList = ({ ideaId }) => {
       `https://localhost:7133/api/Idea/GetAllComments/${ideaId}`,
       data
     );
-
     setComments(res.data);
   };
 
@@ -24,7 +23,11 @@ const CommentList = ({ ideaId }) => {
   }, []);
 
   const renderComments = comments.map((comment) => {
-    return <li key={comment.id}>{comment.content}</li>;
+    return (
+      <div>
+        <li key={comment.id}>{comment.content}</li>
+      </div>
+    );
   });
 
   return <ul>{renderComments}</ul>;

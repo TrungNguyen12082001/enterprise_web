@@ -6,7 +6,7 @@ export const login = (user, history) => {
     try {
       const res = await axios({
         method: "POST",
-        url: "https://localhost:7133/api/Account/login", //https://localhost:7133/api/Account/GetUsers
+        url: "https://localhost:7133/api/Account/login",
         data: user,
       });
       console.log("res: ", res);

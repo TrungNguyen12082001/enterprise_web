@@ -1,5 +1,4 @@
 import axios from "axios";
-import { GET_USER_LIST } from "../constants/user-const";
 
 export const getUserList = (userId) => {
   userId = userId || "";

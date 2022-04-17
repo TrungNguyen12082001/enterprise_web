@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "../Button/Button.elements";
-import Pic1 from "../../images/pic1.svg";
 import {
   BtnWrap,
   Column1,

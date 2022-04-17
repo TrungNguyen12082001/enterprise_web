@@ -26,13 +26,11 @@ const useStyles = makeStyles({
 
 const CreateIdeas = () => {
   const [categories, setCategories] = useState("");
-  const [cates, setCates] = useState("");
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [content, setContent] = useState("");
   const [categoryId, setCategoryId] = useState("");
   const [submissionId, setSubmissionId] = useState("");
-  // const label = { inputProps: { "aria-label": "Checkbox demo" } };
   const user = JSON.parse(localStorage.getItem("user"));
   const requestHeader = {
     headers: {
@@ -44,7 +42,6 @@ const CreateIdeas = () => {
   const onSubmit = async () => {
     const user = JSON.parse(localStorage.getItem("user"));
     var userInfo = jwt_decode(user.token);
-    // e.preventDefault();
     await axios.post(
       `https://localhost:7133/api/Idea/CreateIdea`,
       {
@@ -77,18 +74,6 @@ const CreateIdeas = () => {
     getCategoryList();
   }, []);
 
-  // const fetchSubmissions = async () => {
-  //   const res = await axios.get(
-  //     "https://localhost:7133/api/Idea/GetAllSubmissions",
-  //     data
-  //   );
-  //   setSubmissionId(res.data);
-  // };
-
-  // useEffect(() => {
-  //   fetchSubmissions();
-  // }, []);
-
   const handleChange = (event) => {
     setCategoryId(event.target.value);
   };
@@ -96,10 +81,6 @@ const CreateIdeas = () => {
   const renderCategories = Object.values(categories).map((item) => {
     return <MenuItem value={item.id}>{item.name}</MenuItem>;
   });
-
-  // const renderSubmissionId = Object.values(submissionId).map((sub) => {
-  //   return <>{sub.id}</>;
-  // });
 
   const classes = useStyles();
   return (
@@ -159,7 +140,6 @@ const CreateIdeas = () => {
             label="Agree terms and conditions of company"
             required
           />
-          {/* <Checkbox {...label} /> */}
         </FormGroup>
 
         <Button
@@ -169,8 +149,6 @@ const CreateIdeas = () => {
           value={submissionId}
           onChange={(e) => setSubmissionId(e.target.value)}
           onClick={() => onSubmit()}
-          // disabled={() => setSubmissionId()}
-          // disabled={false}
         >
           Submit
         </Button>

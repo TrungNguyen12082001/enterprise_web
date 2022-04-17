@@ -8,7 +8,6 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import UserSidebar from "../UserSidebar/UserSidebar";
 
 const AllCategories = () => {
   const [category, setCategory] = useState("");
@@ -23,6 +22,7 @@ const AllCategories = () => {
       "https://localhost:7133/api/Idea/GetAllCategories",
       requestHeader
     );
+    console.log(res, "All Categories");
     setCategory(res.data);
   };
 

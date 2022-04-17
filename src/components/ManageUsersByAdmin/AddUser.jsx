@@ -11,7 +11,6 @@ import React, { useState } from "react";
 import { addUser } from "../../store/actions/user-action";
 import AdminSidebar from "../AdminSidebar/AdminSidebar";
 import { useNavigate } from "react-router-dom";
-import Select from "@mui/material";
 
 const useStyles = makeStyles({
   container: {
@@ -42,6 +41,7 @@ const AddUser = () => {
 
   const addNewUser = async () => {
     await addUser(newUser);
+    console.log(newUser, "New User");
     navigate("/all-users");
   };
   return (
